@@ -1,0 +1,45 @@
+package org.example;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+
+public class Calculadora2Test {
+    private Calculadora2 calculadora;
+
+    @BeforeEach
+    public void setUp() {
+        calculadora = new Calculadora2();
+    }
+
+    @Test
+    public void testSumar() {
+        int resultado = calculadora.sumar(5, 3);
+        Assertions.assertEquals(8, resultado);
+    }
+
+    @Test
+    public void testRestar() {
+        int resultado = calculadora.restar(10, 4);
+        Assertions.assertEquals(6, resultado);
+    }
+
+    @Test
+    public void testMultiplicar() {
+        int resultado = calculadora.multiplicar(6, 2);
+        Assertions.assertEquals(12, resultado);
+    }
+
+    @Test
+    public void testDividir() {
+        int resultado = calculadora.dividir(10, 2);
+        Assertions.assertEquals(5, resultado);
+    }
+
+    @Test
+    public void testDividirPorCero() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            calculadora.dividir(10, 0);
+        });
+    }
+}
