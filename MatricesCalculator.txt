@@ -1,0 +1,75 @@
+package org.example;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class MatricesCalculator {
+
+    public static void main(String[] args) {
+        int[][] matrizA = leerMatrizDesdeArchivo("matrizA.txt"); //Lee las matrices en eclipse-workspace
+        int[][] matrizC = leerMatrizDesdeArchivo("matrizC.txt");
+        int[][] matrizB = calcularMatrizB(matrizA, matrizC);
+        guardarMatrizEnArchivo(matrizB, "matrizB.txt");
+        System.out.println("Matriz B calculada y guardada en el archivo matrizB.txt");
+    }
+
+    private static int[][] leerMatrizDesdeArchivo(String nombreArchivo) {
+        int[][] matriz = null;
+        try {
+            File archivo = new File(nombreArchivo);
+            Scanner scanner = new Scanner(archivo); //escanea
+            int filas = 0;
+            int columnas = 0;
+            while (scanner.hasNextLine()) {
+                filas++;
+                String[] filaActual = scanner.nextLine().split(" ");
+                columnas = filaActual.length;
+            }
+            matriz = new int[filas][columnas];
+            scanner.close();
+
+            scanner = new Scanner(archivo);
+            int fila = 0;
+            while (scanner.hasNextLine()) {
+                String[] filaActual = scanner.nextLine().split(" ");
+                for (int columna = 0; columna < filaActual.length; columna++) {
+                    matriz[fila][columna] = Integer.parseInt(filaActual[columna]);
+                }
+                fila++;
+            }
+            scanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return matriz;
+    }
+
+    private static int[][] calcularMatrizB(int[][] matrizA, int[][] matrizC) {
+        int filas = matrizA.length;
+        int columnas = matrizA[0].length;
+        int[][] matrizB = new int[filas][columnas];
+        for (int fila = 0; fila < filas; fila++) {
+            for (int columna = 0; columna < columnas; columna++) {
+                matrizB[fila][columna] = matrizC[fila][columna] - matrizA[fila][columna];
+            }
+        }
+        return matrizB;
+    }
+
+    private static void guardarMatrizEnArchivo(int[][] matriz, String nombreArchivo) {
+        try {
+            FileWriter writer = new FileWriter(nombreArchivo);
+            for (int fila = 0; fila < matriz.length; fila++) {
+                for (int columna = 0; columna < matriz[0].length; columna++) {
+                    writer.write(matriz[fila][columna] + " ");
+                }
+                writer.write("\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
